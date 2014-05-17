@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "jsOAuth plugin for Google Chrome Extension",
+    "description": "The name of the application"
+  },
+  "appDescription": {
+    "message": "A plugin for jsOAuth for Google Chrome Extension",
+    "description": "The description of the application"
+  }
+}
