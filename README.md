@@ -76,10 +76,14 @@ done, you can make your authenticated 2-legged request.
         }
     </script>
 
-If your are managing package dependencies with bower, your can install jsOAuth and jsOAuth plugin for Google Chrome Extension using bower install command.
+If your are managing package dependencies with bower, your can install jsOAuth and jsOAuthChromeEx plugin for Google Chrome Extension using bower install command.
 
     bower install git://github.com/bytespider/jsOAuth.git
     bower install git://github.com/amobiz/jsOAuthChromeEx.git
+
+## Example
+
+Check out [EverJS](https://github.com/amobiz/EverJS) for working example.
 
 ## Authors
 
