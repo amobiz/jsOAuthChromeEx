@@ -17,6 +17,7 @@
 
         // note: this file is actually not exist and not ever loaded, but must be declared in "web_accessible_resources".
         options.callbackUrl = urlOAuth = chrome.extension.getURL( 'oauth.html' );
+        //options.callbackUrl = 'oob';
         chrome.tabs.onUpdated.addListener(function( tabId, changeInfo/*, tab*/ ) {
             var params;
             if ( changeInfo.url && changeInfo.url.indexOf( urlOAuth ) === 0 ) {
@@ -63,6 +64,30 @@
         }
     }
 
+    OAuth.signin = {};
+
+    OAuth.signin.twitter = function(consumerKey, consumerSecret, callback) {
+        new OAuth({
+            consumerKey: consumerKey,
+            consumerSecret: consumerSecret,
+            requestTokenUrl: 'https://api.twitter.com/oauth/request_token',
+            authorizationUrl: 'https://api.twitter.com/oauth/authorize',
+            accessTokenUrl: 'https://api.twitter.com/oauth/access_token'
+        }).authorize(callback, function(error) {
+
+        });
+    };
+
+    OAuth.twitter = function(consumerKey, consumerSecret, callback) {
+        return new OAuth({
+            consumerKey: consumerKey,
+            consumerSecret: consumerSecret,
+            requestTokenUrl: 'https://api.twitter.com/oauth/request_token',
+            authorizationUrl: 'https://api.twitter.com/oauth/authenticate',
+            accessTokenUrl: 'https://api.twitter.com/oauth/access_token'
+        });
+    }
+
     OAuth.prototype.authorize = function( onsuccess, onfailure ) {
         var self = this;
 
@@ -70,13 +95,14 @@
             onsuccess( this );
         }
         else if ( self.chromeExt.requesting ) {
-            throw 'authorize process is already initialized...';
+            throw new Error('authorize process is already initialized...');
         }
         else {
             self.chromeExt.requesting = true;
             self.chromeExt.onsuccess = onsuccess;
             self.chromeExt.onfailure = onfailure;
             this.fetchRequestToken(function( url ) {
+                console.log('tokenUrl='+url);
                 window.open( url, '_blank' );
             }, function( error ) {
                 handleFailure( self, error );
